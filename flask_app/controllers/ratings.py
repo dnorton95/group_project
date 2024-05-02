@@ -1,5 +1,5 @@
 from flask_app import app
-from flask_app.models.restaurant import restaurant
+from flask_app.models.restaurant import Restaurant
 from flask_app.models.user import User
 from flask_app.models.rating import Rating
 from flask import flash, render_template, redirect, request, session
