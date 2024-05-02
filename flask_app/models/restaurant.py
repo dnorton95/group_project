@@ -5,8 +5,8 @@ from flask_app.models.user import User
 from pprint import pprint
 
 
-class Show:
-    DB = "belt_exam_db"
+class Restaurant:
+    DB = "group_project"
 
     def __init__(self, data):
         self.id = data["id"]
@@ -59,24 +59,24 @@ class Show:
 
     @classmethod
     def find_all(cls):
-        query = """SELECT * FROM shows JOIN users ON shows.user_id = users.id"""
-        list_of_dicts = connectToMySQL(Show.DB).query_db(query)
+        query = """SELECT * FROM restaurants JOIN users ON restaurants.user_id = users.id"""
+        list_of_dicts = connectToMySQL(restaurant.DB).query_db(query)
 
-        shows = []
+        restaurants = []
         for each_dict in list_of_dicts:
-            show = Show(each_dict)
-            shows.append(show)
-        return shows
+            restaurant = restaurant(each_dict)
+            restaurants.append(restaurant)
+        return restaurants
 
     @classmethod
     def find_all_with_users(cls):
-        query = """SELECT * FROM shows JOIN users ON shows.user_id = users.id"""
+        query = """SELECT * FROM restaurants JOIN users ON restaurants.user_id = users.id"""
 
-        list_of_dicts = connectToMySQL(Show.DB).query_db(query)
+        list_of_dicts = connectToMySQL(restaurant.DB).query_db(query)
 
-        shows = []
+        restaurants = []
         for each_dict in list_of_dicts:
-            show = Show(each_dict)
+            restaurant = restaurant(each_dict)
             user_data = {
                 "id": each_dict["users.id"],
                 "first_name": each_dict["first_name"],
@@ -87,34 +87,34 @@ class Show:
                 "updated_at": each_dict["users.updated_at"],
             }
             user = User(user_data)
-            show.user = user
-            shows.append(show)
-        return shows
+            restaurant.user = user
+            restaurants.append(restaurant)
+        return restaurants
 
     @classmethod
-    def find_by_id(cls, show_id):
-        query = """SELECT * FROM shows WHERE id = %(show_id)s;"""
-        data = {"show_id": show_id}
-        list_of_dicts = connectToMySQL(Show.DB).query_db(query, data)
+    def find_by_id(cls, restaurant_id):
+        query = """SELECT * FROM restaurants WHERE id = %(restaurant_id)s;"""
+        data = {"restaurant_id": restaurant_id}
+        list_of_dicts = connectToMySQL(restaurant.DB).query_db(query, data)
 
         if len(list_of_dicts) == 0:
             return None
 
-        show = Show(list_of_dicts[0])
-        return show
+        restaurant = restaurant(list_of_dicts[0])
+        return restaurant
 
     @classmethod
-    def find_by_id_with_user(cls, show_id):
-        query = """SELECT * FROM shows JOIN users ON shows.user_id = users.id 
-        WHERE shows.id = %(show_id)s"""
+    def find_by_id_with_user(cls, restaurant_id):
+        query = """SELECT * FROM restaurants JOIN users ON restaurants.user_id = users.id 
+        WHERE restaurants.id = %(restaurant_id)s"""
 
-        data = {"show_id": show_id}
-        list_of_dicts = connectToMySQL(Show.DB).query_db(query, data)
+        data = {"restaurant_id": restaurant_id}
+        list_of_dicts = connectToMySQL(restaurant.DB).query_db(query, data)
 
         if len(list_of_dicts) == 0:
             return None
 
-        show = Show(list_of_dicts[0])
+        restaurant = restaurant(list_of_dicts[0])
         user_data = {
             "id": list_of_dicts[0]["users.id"],
             "first_name": list_of_dicts[0]["first_name"],
@@ -124,43 +124,43 @@ class Show:
             "created_at": list_of_dicts[0]["users.created_at"],
             "updated_at": list_of_dicts[0]["users.updated_at"],
         }
-        show.user = User(user_data)
-        return show
+        restaurant.user = User(user_data)
+        return restaurant
 
     @classmethod
     def create(cls, form_data):
-        query = """INSERT INTO shows
+        query = """INSERT INTO restaurants
         (title, network, release_date, comments, user_id)
         VALUES
         (%(title)s, %(network)s, %(release_date)s, %(comments)s, 
         %(user_id)s)"""
-        show_id = connectToMySQL(Show.DB).query_db(query, form_data)
-        return show_id
+        restaurant_id = connectToMySQL(restaurant.DB).query_db(query, form_data)
+        return restaurant_id
 
     @classmethod
     def update(cls, form_data):
-        query = """UPDATE shows
+        query = """UPDATE restaurants
         SET
         title=%(title)s,
         network=%(network)s,
         release_date=%(release_date)s,
         comments=%(comments)s
-        WHERE id = %(show_id)s;"""
-        connectToMySQL(Show.DB).query_db(query, form_data)
+        WHERE id = %(restaurant_id)s;"""
+        connectToMySQL(restaurant.DB).query_db(query, form_data)
         return
 
     @classmethod
-    def delete_by_id(cls, show_id):
-        query = """DELETE FROM shows WHERE id = %(show_id)s;"""
-        data = {"show_id": show_id}
-        connectToMySQL(Show.DB).query_db(query, data)
+    def delete_by_id(cls, restaurant_id):
+        query = """DELETE FROM restaurants WHERE id = %(restaurant_id)s;"""
+        data = {"restaurant_id": restaurant_id}
+        connectToMySQL(restaurant.DB).query_db(query, data)
         return
 
     @classmethod
     def count_by_title(cls, title):
         query = """SELECT COUNT(title) AS "count"
-        FROM shows WHERE title = %(title)s"""
+        FROM restaurants WHERE title = %(title)s"""
         data = {"title": title}
-        list_of_dicts = connectToMySQL(Show.DB).query_db(query, data)
+        list_of_dicts = connectToMySQL(restaurant.DB).query_db(query, data)
         pprint(list_of_dicts)
         return list_of_dicts[0]["count"]
