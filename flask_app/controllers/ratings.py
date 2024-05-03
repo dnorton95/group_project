@@ -24,12 +24,12 @@ def get_all_restaurants():
         return redirect("/")
     
     
-    restaurants = restaurant.find_all_restaurants_with_users_and_ratings()
+    restaurants = restaurant.find_all_restaurants_with_users_and_rating()
     user = User.find_user_by_id(session["user_id"])
 
     for restaurant in restaurants:
-        restaurant_ratings = Rating.all_ratings(restaurant.id)
-        restaurant.total_points = sum(rating.points for rating in restaurant_ratings)
+        restaurant_rating = Rating.all_rating(restaurant.id)
+        restaurant.total_rating = sum(rating.rating for rating in restaurant_rating)
 
     return render_template("all_restaurants.html", restaurants=restaurants, user=user)
 
@@ -48,8 +48,8 @@ def create_restaurant():
         return redirect("/dashboard")
     # Run restaurant class validator
 
-    if "ratings" in request.form:
-        session["ratings"] = request.form["ratings"]
+    if "rating" in request.form:
+        session["rating"] = request.form["rating"]
 
     # Check if the restaurant name is unique
     if restaurant.count_by_recipe(request.form["recipe"]) >= 1:
@@ -58,8 +58,8 @@ def create_restaurant():
     # Check if the restaurant name is unique
 
 
-    if "ratings" in session:
-        session.pop("ratings")
+    if "rating" in session:
+        session.pop("rating")
 
     restaurant.create(request.form)
     flash("restaurant succesfully posted")
@@ -71,7 +71,7 @@ def restaurant_details(restaurant_id):
         flash("Please log in.", "login")
         return redirect("/")
 
-    restaurant_ratings = Rating.all_ratings(restaurant_id)
+    restaurant_rating = Rating.all_rating(restaurant_id)
     restaurant = restaurant.find_restaurant_by_id_with_user(restaurant_id)
     user = User.find_user_by_id(session["user_id"])
     user_id = session.get('user_id')
@@ -82,12 +82,12 @@ def restaurant_details(restaurant_id):
     if has_submitted_rating:
         user_rating_id = Rating.get_user_rating_id(restaurant_id, user_id)  # Retrieve user's rating ID
 
-    if restaurant_ratings:
-        average_rating = sum(rating.points for rating in restaurant_ratings) / len(restaurant_ratings)
+    if restaurant_rating:
+        average_rating = sum(rating.rating for rating in restaurant_rating) / len(restaurant_rating)
     else:
         average_rating = None
 
-    return render_template('restaurant_details.html', restaurant=restaurant, restaurant_ratings=restaurant_ratings, user=user, average_rating=average_rating, has_submitted_rating=has_submitted_rating, user_rating_id=user_rating_id)
+    return render_template('restaurant_details.html', restaurant=restaurant, restaurant_rating=restaurant_rating, user=user, average_rating=average_rating, has_submitted_rating=has_submitted_rating, user_rating_id=user_rating_id)
 
 @app.get("/restaurants/<int:restaurant_id>/edit")
 def edit_restaurant(restaurant_id):
