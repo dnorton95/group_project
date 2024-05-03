@@ -6,9 +6,9 @@ from flask import flash, render_template, redirect, request, session
 
 @app.route("/dashboard")
 def restaurants():
-    if "user_id" not in session:
-        flash("Please log in.", "login")
-        return redirect("/")
+    # if "user_id" not in session:
+    #     flash("Please log in.", "login")
+    #     return redirect("/")
     
     user_id = session["user_id"]
     restaurants = restaurant.find_all_restaurants_with_users()
@@ -19,9 +19,9 @@ def restaurants():
 
 @app.get("/restaurants")
 def get_all_restaurants():
-    if "user_id" not in session:
-        flash("Please log in.", "login")
-        return redirect("/")
+    # if "user_id" not in session:
+    #     flash("Please log in.", "login")
+    #     return redirect("/")
     
     
     restaurants = restaurant.find_all_restaurants_with_users_and_rating()
@@ -37,9 +37,9 @@ def get_all_restaurants():
 @app.post("/restaurants/create")
 def create_restaurant():
     # Check Session for User
-    if "user_id" not in session:
-        flash("Please log in.", "login")
-        return redirect("/")
+    # if "user_id" not in session:
+    #     flash("Please log in.", "login")
+    #     return redirect("/")
     user_id = session["user_id"]
     # Check Session for User
 
@@ -67,9 +67,9 @@ def create_restaurant():
 
 @app.get("/restaurants/<int:restaurant_id>")
 def restaurant_details(restaurant_id):
-    if "user_id" not in session:
-        flash("Please log in.", "login")
-        return redirect("/")
+    # if "user_id" not in session:
+    #     flash("Please log in.", "login")
+    #     return redirect("/")
 
     restaurant_rating = Rating.all_rating(restaurant_id)
     restaurant = restaurant.find_restaurant_by_id_with_user(restaurant_id)
@@ -93,9 +93,9 @@ def restaurant_details(restaurant_id):
 def edit_restaurant(restaurant_id):
 
     # Check if user is in session
-    if "user_id" not in session:
-        flash("Please log in.", "login")
-        return redirect("/")
+    # if "user_id" not in session:
+    #     flash("Please log in.", "login")
+    #     return redirect("/")
     # Check if user is in session
     
     # Pass in the restaurant and user variables
@@ -109,9 +109,9 @@ def edit_restaurant(restaurant_id):
 @app.post("/restaurants/update")
 def update_restaurant():
     # Check if user is in session
-    if "user_id" not in session:
-        flash("Please log in.", "login")
-        return redirect("/")
+    # if "user_id" not in session:
+    #     flash("Please log in.", "login")
+    #     return redirect("/")
     # Check if user is in session
     
     # Check for restaurant_id
@@ -142,9 +142,9 @@ def update_restaurant():
 
 @app.post("/restaurants/<int:restaurant_id>/delete")
 def delete_restaurant(restaurant_id):
-    if "user_id" not in session:
-        flash("Please log in.")
-        return redirect("/")
+    # if "user_id" not in session:
+    #     flash("Please log in.")
+    #     return redirect("/")
 
     user_id = session["user_id"]
     restaurant = restaurant.find_restaurant_by_id(restaurant_id)

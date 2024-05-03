@@ -7,9 +7,9 @@ from flask import flash, render_template, redirect, request, session
 
 @app.route("/restaurants/all")
 def restaurants():
-    if "user_id" not in session:
-        flash("Please log in.", "login")
-        return redirect("/")
+    # if "user_id" not in session:
+    #     flash("Please log in.", "login")
+    #     return redirect("/")
 
     restaurants = restaurant.find_all_with_users()
     user = User.find_by_id(session["user_id"])
@@ -18,9 +18,9 @@ def restaurants():
 
 @app.get("/restaurants/new")
 def new_restaurant():
-    if "user_id" not in session:
-        flash("Please log in.", "login")
-        return redirect("/")
+    # if "user_id" not in session:
+    #     flash("Please log in.", "login")
+    #     return redirect("/")
 
     user = User.find_by_id(session["user_id"])
     return render_template("new_restaurant.html", user=user)
@@ -28,9 +28,9 @@ def new_restaurant():
 
 @app.post("/restaurants/create")
 def create_restaurant():
-    if "user_id" not in session:
-        flash("Please log in.", "login")
-        return redirect("/")
+    # if "user_id" not in session:
+    #     flash("Please log in.", "login")
+    #     return redirect("/")
 
     if not restaurant.form_is_valid(request.form):
         session["comments"] = request.form["comments"]
@@ -51,9 +51,9 @@ def create_restaurant():
 
 @app.get("/restaurants/<int:restaurant_id>")
 def restaurant_details(restaurant_id):
-    if "user_id" not in session:
-        flash("Please log in.", "login")
-        return redirect("/")
+    # if "user_id" not in session:
+    #     flash("Please log in.", "login")
+    #     return redirect("/")
 
     restaurant_comments = Comment.all_comments(restaurant_id)
     restaurant = restaurant.find_by_id_with_user(restaurant_id)
@@ -65,9 +65,9 @@ def restaurant_details(restaurant_id):
 
 @app.get("/restaurants/<int:restaurant_id>/edit")
 def edit_restaurant(restaurant_id):
-    if "user_id" not in session:
-        flash("Please log in.", "login")
-        return redirect("/")
+    # if "user_id" not in session:
+    #     flash("Please log in.", "login")
+    #     return redirect("/")
 
     restaurant = restaurant.find_by_id(restaurant_id)
     user = User.find_by_id(session["user_id"])
@@ -76,9 +76,9 @@ def edit_restaurant(restaurant_id):
 
 @app.post("/restaurants/update")
 def update_restaurant():
-    if "user_id" not in session:
-        flash("Please log in.", "login")
-        return redirect("/")
+    # if "user_id" not in session:
+    #     flash("Please log in.", "login")
+    #     return redirect("/")
 
     restaurant_id = request.form["restaurant_id"]
     if not restaurant.form_is_valid(request.form):
@@ -99,9 +99,9 @@ def update_restaurant():
 
 @app.post("/restaurants/<int:restaurant_id>/delete")
 def delete_restaurant(restaurant_id):
-    if "user_id" not in session:
-        flash("Please log in.", "login")
-        return redirect("/")
+    # if "user_id" not in session:
+    #     flash("Please log in.", "login")
+    #     return redirect("/")
 
     restaurant.delete_by_id(restaurant_id)
     return redirect("/restaurants/all")
