@@ -10,12 +10,12 @@ class Rating:
     DB = "group_project"
     def __init__(self, data):
         self.id = data["id"]
-        self.user_id = data["user_id"]
-        self.restaurant_id = data["restaurant_id"]
         self.rating = data["rating"]
-        self.comment = data["comment"]  # Changed from 'content' to 'comment'
+        self.comment = data["comment"]
         self.created_at = data["created_at"]
         self.updated_at = data["updated_at"]
+        self.user_id = data["user_id"]
+        self.restaurant_id = data["restaurant_id"]
         self.users = {
             "id": data["user_id"],
             "first_name": data["first_name"],
@@ -32,7 +32,7 @@ class Rating:
 
     @classmethod
     def create(cls, form_data):
-        query = """INSERT INTO rating (user_id, restaurant_id, rating, comment) 
+        query = """INSERT INTO ratings (user_id, restaurant_id, rating, comment) 
                 VALUES (%(user_id)s, %(restaurant_id)s, %(rating)s, %(comment)s);"""
         connectToMySQL("restaurants_schema").query_db(query, form_data)
         return
@@ -42,26 +42,27 @@ class Rating:
 
 
 # READ METHODS BEGIN
-
     @classmethod
-    def all_rating_and_comments(cls, restaurant_id):
+    def all_ratings(cls, restaurant_id):
         data = {"restaurant_id": restaurant_id}
-        query = """SELECT *,
-                FROM rating
-                JOIN users ON rating.user_id = users.id
-                WHERE rating.restaurant_id = %(restaurant_id)s
-                ORDER BY created_at DESC;"""
+        query = """SELECT *
+                FROM ratings
+                JOIN users ON ratings.user_id = users.id
+                WHERE ratings.restaurant_id = %(restaurant_id)s
+                ORDER BY ratings.created_at DESC; """
         list_of_dicts = connectToMySQL(Rating.DB).query_db(query, data)
+        pprint(list_of_dicts)
 
-        rating_and_comments = []
+        ratings = []
         for each_dict in list_of_dicts:
-            rating_or_comment = Rating(each_dict) if each_dict["rating"] else Comment(each_dict)
-            rating_and_comments.append(rating_or_comment)
-        return rating_and_comments
+            rating = Rating(each_dict)
+            ratings.append(rating)
+        return ratings
+
 
     @classmethod
     def get_user_rating_id(cls, restaurant_id, user_id):
-        query = "SELECT id FROM rating WHERE restaurant_id = %s AND user_id = %s"
+        query = "SELECT id FROM ratings WHERE restaurant_id = %s AND user_id = %s"
         result = connectToMySQL(cls.DB).query_db(query, (restaurant_id, user_id))
         if result:
             return result[0]['id']
@@ -70,9 +71,10 @@ class Rating:
     # Checks if user has submitted a rating already
     @classmethod
     def has_submitted_rating(cls, restaurant_id, user_id):
-        query = "SELECT COUNT(*) FROM rating WHERE restaurant_id = %s AND user_id = %s"
+        query = "SELECT COUNT(*) as count FROM ratings WHERE restaurant_id = %s AND user_id = %s"
         result = connectToMySQL(cls.DB).query_db(query, (restaurant_id, user_id))
-        return result[0]['COUNT(*)'] > 0
+        return result[0]['count'] > 0
+
 
     
     # Comment Validator
@@ -80,10 +82,10 @@ class Rating:
     def form_is_valid(form_data):
         is_valid = True
 
-        if len(form_data.get("content", "")) == 0:
+        if len(form_data.get("comment", "")) == 0:
             flash("Please enter a comment.")
             is_valid = False
-        elif len(form_data["content"]) < 3:
+        elif len(form_data["comment"]) < 3:
             flash("Comment must be at least three characters.")
             is_valid = False
 
@@ -101,7 +103,7 @@ class Rating:
 
     @classmethod
     def update(cls, form_data):
-        query = """UPDATE rating
+        query = """UPDATE ratings
         SET
         rating=%(rating)s,
         comment=%(comment)s
@@ -117,7 +119,7 @@ class Rating:
 
     @classmethod
     def delete_rating(cls, rating_id):
-        query = """DELETE FROM rating WHERE id = %(rating_id)s"""
+        query = """DELETE FROM ratings WHERE id = %(rating_id)s"""
         data = {"rating_id": rating_id}
         connectToMySQL(Rating.DB).query_db(query, data)
         return
