@@ -28,6 +28,8 @@ class Rating:
 
 
 
+
+
 # CREATE METHODS BEGIN
 
     @classmethod
@@ -41,7 +43,10 @@ class Rating:
 
 
 
+
+
 # READ METHODS BEGIN
+
     @classmethod
     def all_ratings(cls, restaurant_id):
         data = {"restaurant_id": restaurant_id}
@@ -58,8 +63,7 @@ class Rating:
             rating = Rating(each_dict)
             ratings.append(rating)
         return ratings
-
-
+# Gets the rating ID where user and restaurant ID are available
     @classmethod
     def get_user_rating_id(cls, restaurant_id, user_id):
         query = "SELECT id FROM ratings WHERE restaurant_id = %s AND user_id = %s"
@@ -67,17 +71,13 @@ class Rating:
         if result:
             return result[0]['id']
         return None
-    
-    # Checks if user has submitted a rating already
+# Checks if user has submitted a rating already
     @classmethod
     def has_submitted_rating(cls, restaurant_id, user_id):
         query = "SELECT COUNT(*) as count FROM ratings WHERE restaurant_id = %s AND user_id = %s"
         result = connectToMySQL(cls.DB).query_db(query, (restaurant_id, user_id))
         return result[0]['count'] > 0
-
-
-    
-    # Comment Validator
+# Validates comments by length and rating numbers
     @staticmethod
     def form_is_valid(form_data):
         is_valid = True
@@ -99,6 +99,8 @@ class Rating:
 
 
 
+
+
 # UPDATE METHODS BEGIN
 
     @classmethod
@@ -112,6 +114,8 @@ class Rating:
         return
 
 # UPDATE METHODS END
+
+
 
 
 

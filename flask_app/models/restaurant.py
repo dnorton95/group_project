@@ -4,6 +4,7 @@ from flask_app.config.mysqlconnection import connectToMySQL
 from flask_app.models.user import User
 from pprint import pprint
 
+# CLASS INITIALIZER BEGIN
 
 class Restaurant:
     DB = "group_project"
@@ -20,6 +21,31 @@ class Restaurant:
         self.created_at = data["created_at"]
         self.updated_at = data["updated_at"]
 
+# CLASS INITIALIZER END
+
+
+
+
+# CREATE METHODS BEGIN
+
+    @classmethod
+    def create(cls, form_data):
+        query = """INSERT INTO restaurants
+        (name, cuisine, street, city, user_id)
+        VALUES
+        (%(name)s, %(cuisine)s, %(street)s, %(city)s, 
+        %(user_id)s)"""
+        restaurant_id = connectToMySQL(Restaurant.DB).query_db(query, form_data)
+        return restaurant_id
+
+# CREATE METHODS END
+
+
+
+
+# READ METHODS BEGIN
+
+# Form validator
     @staticmethod
     def form_is_valid(form_data):
         is_valid = True
@@ -80,18 +106,22 @@ class Restaurant:
         else:
             return None
 
-
-
-
+# Method to count how many restaurants there are with a specific name
     @classmethod
-    def create(cls, form_data):
-        query = """INSERT INTO restaurants
-        (name, cuisine, street, city, user_id)
-        VALUES
-        (%(name)s, %(cuisine)s, %(street)s, %(city)s, 
-        %(user_id)s)"""
-        restaurant_id = connectToMySQL(Restaurant.DB).query_db(query, form_data)
-        return restaurant_id
+    def count_by_name(cls, name):
+        query = """SELECT COUNT(name) AS "count"
+        FROM restaurants WHERE name = %(name)s"""
+        data = {"name": name}
+        list_of_dicts = connectToMySQL(Restaurant.DB).query_db(query, data)
+        pprint(list_of_dicts)
+        return list_of_dicts[0]["count"]
+
+# READ METHODS END
+
+
+
+
+# UPDATE METHODS BEGIN
 
     @classmethod
     def update(cls, form_data):
@@ -105,6 +135,13 @@ class Restaurant:
         connectToMySQL(Restaurant.DB).query_db(query, form_data)
         return
 
+# UPDATE METHODS END
+
+
+
+
+# DELETE METHODS BEGIN
+
     @classmethod
     def delete_by_id(cls, restaurant_id):
         query = """DELETE FROM restaurants WHERE id = %(restaurant_id)s;"""
@@ -112,11 +149,6 @@ class Restaurant:
         connectToMySQL(Restaurant.DB).query_db(query, data)
         return
 
-    @classmethod
-    def count_by_name(cls, name):
-        query = """SELECT COUNT(name) AS "count"
-        FROM restaurants WHERE name = %(name)s"""
-        data = {"name": name}
-        list_of_dicts = connectToMySQL(Restaurant.DB).query_db(query, data)
-        pprint(list_of_dicts)
-        return list_of_dicts[0]["count"]
+# DELETE METHODS END
+
+

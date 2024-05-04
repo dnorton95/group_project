@@ -2,6 +2,8 @@ from flask_app import app
 from flask_app.models.rating import Rating
 from flask import flash, render_template, redirect, request, session
 
+# CREATE BEGIN
+
 @app.post("/ratings/create")
 def create_rating():
     print("Before retrieving restaurant_id from form")
@@ -21,6 +23,23 @@ def create_rating():
     
     return redirect(f"/restaurants/{restaurant_id}")
 
+# CREATE END
+
+
+
+# READ BEGIN
+
+# READ END
+
+
+
+# UPDATE BEGIN
+
+# UPDATE END
+
+
+
+# DELETE BEGIN
 
 @app.post("/ratings/<int:rating_id>/delete")
 def rating_delete(rating_id):
@@ -36,3 +55,5 @@ def rating_delete(rating_id):
 
 
     return redirect("/restaurants")
+
+# DELETE END
