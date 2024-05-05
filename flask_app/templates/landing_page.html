@@ -3,25 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit {{ show.title }}</title>
+    <title>Recommend Show</title>
   </head>
   <body>
     <div>
       <div>
-        <h2>Welcome, {{user.first_name}}</h2>
+        <h2>Recommend A New Show, {{user.first_name}}!</h2>
         <form role="logout" action="/users/logout">
           <a href="/shows/all"
-            >Back To Shows</a
+            >Back To All Shows</a
           >
           <button type="submit">Log Out</button>
         </form>
       </div>
     </div>
     <div>
-      <form action="/shows/update" method="post">
-        <div >
-          <div >
-            <h3>Edit {{show.title}}</h3>
+      <form action="/shows/create" method="post">
+        <div>
+          <div>
+            <h3>Create Your Show</h3>
           </div>
           <div>
           {% with messages = get_flashed_messages()%} 
@@ -32,24 +32,23 @@
               {% endif %} 
             {% endwith %}
             <div>
-              <input type="text" placeholder="Title Of Show" id="floatingTextarea" name="title" value="{{show.title}}"></textarea>
+              <input type="text" placeholder="Title Of Show" id="floatingTextarea" name="title"></textarea>
               <label for="floatingTextarea">Title</label>
             </div>
             <div>
-              <input type="text" placeholder="Network Of Show" id="floatingTextarea" name="network" value="{{show.network}}"></textarea>
+              <textarea placeholder="Network Here" id="floatingTextarea" name="network"></textarea>
               <label for="floatingTextarea">Network</label>
             </div>
             <label for="release_date">Release Date:</label>
-            <input type="date" name="release_date" value="{{show.release_date}}" />
+            <input type="date" name="release_date" />
             <div>
-              <input type="text" placeholder="Comments" id="floatingTextarea" name="comments" value="{{ session.comments if 'comments' in session else show.comments}}"></textarea>
+              <textarea placeholder="Comments Here" id="floatingTextarea" name="comments">{{ session.comments if "comments" in session else '' }}</textarea>
               <label for="floatingTextarea">Comments</label>
             </div>
                 <input type="hidden" name="user_id" value="{{user.id}}">
-                <input type="hidden" name="show_id" value="{{show.id}}">
               </div>
             </div>
-            <input type="submit" value="Edit Show!">
+            <input type="submit" value="Create Show!">
           </div>
         </div>
       </form>
