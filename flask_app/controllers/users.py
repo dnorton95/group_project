@@ -8,19 +8,30 @@ from flask import flash, render_template, redirect, request, session
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    """This route displays the landing page."""
+
+    return render_template("landing_page.html")
+
+
+@app.route("/login-reg")
+def log_reg():
+    """This route displays the login and registration forms."""
+
+    return render_template("login_registration.html")
 
 
 @app.post("/users/register")
 def register():
+    """This route process the register form."""
+
     if not User.validate_register(request.form):
-        return redirect("/")
+        return redirect("/login-reg")
 
     potential_user = User.find_by_email(request.form["email"])
 
     if potential_user != None:
         flash("Email in user!  Please log in!", "register")
-        return redirect("/")
+        return redirect("/login-reg")
 
     hashed_pw = bcrypt.generate_password_hash(request.form["password"])
     user_data = {
@@ -36,18 +47,20 @@ def register():
 
 @app.post("/users/login")
 def login():
+    """This route process the login form."""
+
     if not User.validate_login(request.form):
-        return redirect("/")
+        return redirect("/login-reg")
     potential_user = User.find_by_email(request.form["email"])
     if potential_user == None:
         flash("Invalid credentials", "login")
-        return redirect("/")
+        return redirect("/login-reg")
 
     user = potential_user
 
     if not bcrypt.check_password_hash(user.password, request.form["password"]):
         flash("Invalid credentials", "login")
-        return redirect("/")
+        return redirect("/login-reg")
 
     session["user_id"] = user.id
     return redirect("/restaurants/all")
@@ -55,5 +68,6 @@ def login():
 
 @app.route("/users/logout")
 def logout():
+    """This route clears session"""
     session.clear()
     return redirect("/")

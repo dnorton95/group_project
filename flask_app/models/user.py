@@ -7,7 +7,7 @@ PASSWORD_REGEX = re.compile(r"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}
 
 
 class User:
-    DB = "belt_exam_db"
+    DB = "group_project"
 
     def __init__(self, data):
         self.id = data["id"]
