@@ -31,7 +31,7 @@ def register():
     }
     user_id = User.register(user_data)
     session["user_id"] = user_id
-    return redirect("/shows/all")
+    return redirect("/restaurants/all")
 
 
 @app.post("/users/login")
@@ -50,7 +50,7 @@ def login():
         return redirect("/")
 
     session["user_id"] = user.id
-    return redirect("/shows/all")
+    return redirect("/restaurants/all")
 
 
 @app.route("/users/logout")
