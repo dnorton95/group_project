@@ -55,7 +55,7 @@ def all_restaurants():
     #     flash("Please log in.", "login")
     #     return redirect("/")
 
-    restaurants = Restaurant.find_all_with_users()
+    restaurants = Restaurant.find_all()
     user = User.find_by_id(session["user_id"])
     return render_template("all_restaurants.html", restaurants=restaurants, user=user)
 

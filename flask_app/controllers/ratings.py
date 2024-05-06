@@ -6,14 +6,11 @@ from flask import flash, render_template, redirect, request, session
 
 @app.post("/ratings/create")
 def create_rating():
-    print("Before retrieving restaurant_id from form")
     restaurant_id = request.form.get("restaurant_id")
-    print("restaurant ID from form:", restaurant_id)
-
     form_data = dict(request.form)
     
-    form_data['points'] = int(form_data['points'])
-    print("Form data:", form_data)
+    # Manually set user_id for testing
+    form_data['user_id'] = 1  # Set this to the appropriate user_id
     
     try:
         Rating.create(form_data)
@@ -22,6 +19,8 @@ def create_rating():
         flash('Error occurred while creating the rating. Please try again later.', 'error')
     
     return redirect(f"/restaurants/{restaurant_id}")
+
+
 
 # CREATE END
 
@@ -34,6 +33,20 @@ def create_rating():
 
 
 # UPDATE BEGIN
+
+@app.get("/ratings/<int:rating_id>/edit")
+def rating_edit(rating_id):
+    # if "user_id" not in session:
+    #     flash("Please log in.", "login")
+    #     return redirect("/")
+
+    rating = Rating.find_by_id(rating_id)  # Find the rating object
+    if not rating:
+        flash("Rating not found.", "error")
+        return redirect("/")
+
+    return render_template("edit_rating.html", rating=rating)
+
 
 # UPDATE END
 
@@ -54,6 +67,6 @@ def rating_delete(rating_id):
     flash('Vote removed')
 
 
-    return redirect("/restaurants")
+    return redirect(f"/restaurants/{restaurant_id}")
 
 # DELETE END

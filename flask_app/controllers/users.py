@@ -8,7 +8,7 @@ from flask import flash, render_template, redirect, request, session
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("login_registration.html")
 
 
 @app.post("/users/register")
