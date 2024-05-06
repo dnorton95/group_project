@@ -36,7 +36,7 @@ class Rating:
     def create(cls, form_data):
         query = """INSERT INTO ratings (user_id, restaurant_id, rating, comment) 
                 VALUES (%(user_id)s, %(restaurant_id)s, %(rating)s, %(comment)s);"""
-        connectToMySQL("restaurants_schema").query_db(query, form_data)
+        connectToMySQL("group_project").query_db(query, form_data)
         return
 
 # CREATE METHODS END
@@ -46,6 +46,12 @@ class Rating:
 
 
 # READ METHODS BEGIN
+
+    @classmethod
+    def find_by_id(cls, rating_id):
+        query = "SELECT r.*, u.first_name, u.last_name FROM ratings r JOIN users u ON r.user_id = u.id WHERE r.id = %(rating_id)s;"
+        result = connectToMySQL(cls.DB).query_db(query, {'rating_id': rating_id})
+        return cls(result[0]) if result else None
 
     @classmethod
     def all_ratings(cls, restaurant_id):
