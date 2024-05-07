@@ -13,24 +13,29 @@ class Restaurants:
         #self.phone_number = data["phone_number"]
         #self.created_at = data["created_at"]
         #self.updated_at = data["updated_at"]
-        self.avg = None
+        self.AvgRating =  data["AvgRating"]
 
     @classmethod
     def find_all_with_ratings(cls):
-        query = """SELECT SUM(rating)/count(*) as 'avg',
-                restaurants.name as 'name',
-                restaurants.cuisine as 'cuisine', 
-                restaurants.id as 'id' FROM ratings
-                LEFT JOIN restaurants
-                ON ratings.restaurant_id = restaurants.id
+        query = """with cte1 as(
+                SELECT restaurant_id
+                ,round(AVG(rating),0) AS AverageRating
+                FROM ratings
                 GROUP BY restaurant_id
-                ORDER BY restaurant_id;"""
+                )
+                SELECT restaurants.name as 'name',
+                restaurants.cuisine as 'cuisine', 
+                restaurants.id as 'id'
+                ,coalesce(CAST(cte1.AverageRating as char), 0) AS 'AvgRating'
+                FROM restaurants
+                LEFT JOIN cte1
+                on restaurants.id = cte1.restaurant_id;"""
         results = connectToMySQL(cls.db).query_db(query)
         all_restaurants = []
         for row in results:
             one_restaurant = cls(row)
             one_restaurants_info = {
-                "avg": row['avg'], 
+                "AvgRating": row['AvgRating'], 
                 "name": row['name'],
                 "cuisine": row['cuisine'],
                 "id": row['id']
