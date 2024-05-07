@@ -1,24 +1,21 @@
 import pymysql.cursors
 
-
 class MySQLConnection:
     def __init__(self, db):
-        connection = pymysql.connect(
-            host="localhost",
-            user="root",
-            password="reppaDnaD0295",
-            db=db,
-            charset="utf8mb4",
-            cursorclass=pymysql.cursors.DictCursor,
-            autocommit=False,
-        )
+        connection = pymysql.connect(host = 'localhost',
+                                    user = 'root', 
+                                    password = 'root', 
+                                    db = db,
+                                    charset = 'utf8mb4',
+                                    cursorclass = pymysql.cursors.DictCursor,
+                                    autocommit = False)
         self.connection = connection
-
-    def query_db(self, query: str, data: dict = None):
+    def query_db(self, query:str, data:dict=None):
         with self.connection.cursor() as cursor:
             try:
                 query = cursor.mogrify(query, data)
                 print("Running Query:", query)
+    
                 cursor.execute(query)
                 if query.lower().find("insert") >= 0:
                     self.connection.commit()
@@ -28,12 +25,10 @@ class MySQLConnection:
                     return result
                 else:
                     self.connection.commit()
-            # except Exception as e:
-            #     print("Something went wrong", e)
-            #     return False
+            except Exception as e:
+                print("Something went wrong", e)
+                return False
             finally:
-                self.connection.close()
-
-
+                self.connection.close() 
 def connectToMySQL(db):
     return MySQLConnection(db)
