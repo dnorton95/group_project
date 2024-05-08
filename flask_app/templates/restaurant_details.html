@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{ restaurant.title }}</title>
+  <title>{{ restaurant.name }}</title>
 </head>
 
 <body>
@@ -29,6 +29,7 @@
         <!-- Rating Card Start -->
         <div>
           <div>
+          {% for restaurant in restaurant %}
             <p>{{ restaurant.name }}</p>
             <p>Average Rating: {{ restaurant.avg_rating }}</p>
           </div>
@@ -52,6 +53,7 @@
             <p>{{ restaurant.phone_number }}</p>
           </div>
         </div>
+        {% endfor %}
         <!-- Contact Card End -->
       </div>
       <!-- Left Column End -->
@@ -67,7 +69,7 @@
           <div>
             <p>{{ rating.users.first_name }}, {{ rating.created_at }}</p>
             <p>{{ rating.comment }}</p>
-            <p>Rated: {{ rating.rating}} out of 5</p>
+            <p>Rated: {{ rating.rating }} out of 5</p>
           </div>
           <div>
             <form method="post" action="/ratings/{{ rating.id }}/delete">
@@ -81,7 +83,7 @@
           {% endfor %}
           {% else %}
           <div>
-            <p>No user review yet.</p>
+            <p>No user reviews yet.</p>
           </div>
           {% endif %}
         </div>
@@ -94,8 +96,10 @@
       <div>
         <!-- Leave Review Card Start -->
         <div>
+        {% for restaurant in restaurant %}
           <form method="post" action="/ratings/create">
             <input type="hidden" name="restaurant_id" value="{{ restaurant.id }}">
+            <input type="hidden" name="user_id" value="{{ user.id }}">
             <textarea name="comment" placeholder="Write your review here..." required></textarea>
             <select name="rating" required>
               <option value="" selected disabled hidden>Select a rating</option>
@@ -107,6 +111,7 @@
             </select>
             <button type="submit">Submit Review</button>
           </form>
+          {% endfor %}
         </div>
         <!-- Leave Review Card End -->
       </div>

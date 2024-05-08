@@ -1,6 +1,5 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask import flash
-from flask_app.models.user import User
 from pprint import pprint
 
 
@@ -29,22 +28,15 @@ class Rating:
 # CLASS INITIALIZER END
 
 
-
-
-
 # CREATE METHODS BEGIN
 
     @classmethod
-    def create(cls, form_data):
+    def create(cls, data):
         query = """INSERT INTO ratings (user_id, restaurant_id, rating, comment) 
                 VALUES (%(user_id)s, %(restaurant_id)s, %(rating)s, %(comment)s);"""
-        connectToMySQL("group_project").query_db(query, form_data)
-        return
+        return connectToMySQL("group_project").query_db(query, data)
 
 # CREATE METHODS END
-
-
-
 
 
 # READ METHODS BEGIN
@@ -52,8 +44,8 @@ class Rating:
     @classmethod
     def find_by_id(cls, rating_id):
         query = """SELECT *
-                FROM users
-                INNER JOIN ratings
+                FROM ratings
+                INNER JOIN users
                 ON users.id = ratings.user_id
                 INNER JOIN restaurants
                 ON ratings.restaurant_id = restaurants.id
@@ -64,20 +56,21 @@ class Rating:
 
     @classmethod
     def all_ratings(cls, restaurant_id):
-        data = {"restaurant_id": restaurant_id}
         query = """SELECT *
                 FROM ratings
                 JOIN users ON ratings.user_id = users.id
+                INNER JOIN restaurants
+                ON ratings.restaurant_id = restaurants.id
                 WHERE ratings.restaurant_id = %(restaurant_id)s
-                ORDER BY ratings.created_at DESC; """
-        list_of_dicts = connectToMySQL(Rating.DB).query_db(query, data)
-        pprint(list_of_dicts)
+                ORDER BY ratings.created_at DESC;"""
+        data = {"restaurant_id": restaurant_id}
+        results = connectToMySQL(cls.DB).query_db(query, data)
+        all_ratings = []
+        for row in results:
+            one_rating = cls(row)
+            all_ratings.append(one_rating)
+        return all_ratings
 
-        ratings = []
-        for each_dict in list_of_dicts:
-            rating = Rating(each_dict)
-            ratings.append(rating)
-        return ratings
 # Gets the rating ID where user and restaurant ID are available
     @classmethod
     def get_user_rating_id(cls, restaurant_id, user_id):
@@ -86,12 +79,14 @@ class Rating:
         if result:
             return result[0]['id']
         return None
+
 # Checks if user has submitted a rating already
     @classmethod
     def has_submitted_rating(cls, restaurant_id, user_id):
         query = "SELECT COUNT(*) as count FROM ratings WHERE restaurant_id = %s AND user_id = %s"
         result = connectToMySQL(cls.DB).query_db(query, (restaurant_id, user_id))
         return result[0]['count'] > 0
+
 # Validates comments by length and rating numbers
     @staticmethod
     def form_is_valid(form_data):
@@ -113,9 +108,6 @@ class Rating:
 # READ METHODS END
 
 
-
-
-
 # UPDATE METHODS BEGIN
 
     @classmethod
@@ -129,9 +121,6 @@ class Rating:
         return
 
 # UPDATE METHODS END
-
-
-
 
 
 # DELETE METHODS BEGIN

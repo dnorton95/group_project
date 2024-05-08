@@ -1,0 +1,357 @@
+body{
+    background-color: #02040F;
+    font-family: 'Sedan SC', serif !important;
+}
+
+
+.head {
+    background-color: #02040F;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: -4px -7px 25px 3px rgba(0,0,0,0.75);
+    height: 40px;
+    
+}
+
+.heading {
+    color: #F2AF29;
+    margin-left: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.buttons {
+    margin: 10px;
+    padding: 12px 24px;
+    border-radius: 25px;
+    border: none;
+    color: white;
+    font-size: 16px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.login {
+    background-color: #F2AF29; 
+}
+
+.login:hover {
+    background-color: #FFD700; 
+    transform: translateY(-2px); 
+}
+
+.register {
+    background-color: #56282D; 
+}
+
+.register:hover {
+    background-color: #803336; 
+    transform: translateY(-2px); 
+}
+
+
+.body-container {
+    display: flex;
+    justify-content: space-between; 
+    width: 100%; 
+}
+
+
+
+.icon-container {
+    position: relative; 
+    display: flex;
+    gap: 20px;
+  }
+  
+  .icon-container i {
+    position: absolute; 
+  }
+  
+  
+  .icon-container .fa-cocktail {
+    top: 150px; 
+    left: 100px; 
+    font-size: 50px;
+    color: goldenrod;
+  }
+  
+  .icon-container .fa-hamburger {
+    top: 150px; 
+    left: 250px; 
+    font-size: 50px;
+    color: goldenrod;
+  }
+  
+  .icon-container .fa-birthday-cake {
+    top: 150px; 
+    left: 400px; 
+    font-size: 50px;
+    color: goldenrod;
+  }
+  
+
+
+.body-left, .body-right {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-radius: 15px;
+    border: 5px solid goldenrod;
+    background-color: #56282D; 
+    color: white;
+}
+
+
+.body-left {
+    display: flex;
+    background-color: #56282D;
+    color: white;
+    width: 45%;
+    border-radius: 15px;
+    flex-direction: column;
+    align-items: center;
+    border: 5px solid goldenrod; 
+    box-shadow: 0px 10px 24px 4px rgba(0,0,0,0.75);
+    
+}
+
+
+
+.body-left h2, h3 {
+    font-size: 140px; 
+    margin-top: 250px;
+    margin-left: 55px;
+    padding: 5px;
+    text-shadow: 15px 2px 4px rgba(0, 0, 0, 0.5); 
+    box-shadow: 0px 10px 24px 4px rgba(0,0,0,0.75);
+    
+}
+
+
+.stars {
+    color: gold !important; 
+    font-size: 60px; 
+    display: flex;
+    justify-content: center;
+    position: relative; 
+    top: -10px;
+}
+
+.fa-star {
+    margin-right: 4px; 
+    text-shadow: 7px 2px 4px rgba(0, 0, 0, 0.5); 
+}
+
+.fa-star:hover {
+    transform: scale(1.1); 
+    transition: transform 0.2s; 
+}
+
+
+
+
+
+
+p {
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    
+    
+}
+
+small{
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.body-center{
+    background-color: #5E747F;
+    height: 1000px;
+    
+}
+
+
+
+.body-right {
+    display: flex;
+    flex-direction: column;
+    background-color: #00171F; 
+    backdrop-filter: blur(10px); 
+    height: 1400px;
+    border-radius: 15px;
+    padding: 20px;
+    align-items: center;
+    width: 45%;
+    
+    border: 5px solid goldenrod; 
+    box-shadow: 0px 10px 24px 4px rgba(0,0,0,0.75);
+}
+
+.body-right-nav {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+ul {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    padding: 0;
+    margin-bottom: 20px; 
+}
+
+.body-right-nav > ul > li {
+    list-style: none;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 10px 20px;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+    color: white;
+    background-color: #F2AF29;
+}
+
+i{
+    color: white;
+    margin-right: 5px;
+}
+
+
+li{
+    list-style: none;
+}
+
+li:hover {
+    background-color: rgba(255, 255, 255, 0.2); 
+}
+
+.body-right h2 {
+    font-size: 40px;
+    text-align: center;
+    width: 100%;
+    color: #FFF; 
+    margin-bottom: 10px; 
+}
+
+.menu-content {
+    background: rgba(255, 255, 255, 0.1); 
+    color: white;
+    padding: 15px;
+    border-radius: 8px; 
+    width: 90%; 
+}
+
+
+.rating-star {
+    color: gold;
+    font-size: 16px;  
+}
+
+
+.glass-effect {
+    background: rgba(255, 255, 255, 0.2); 
+    border-radius: 15px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+    backdrop-filter: blur(10px); 
+    border: 1px solid rgba(255, 255, 255, 0.3); 
+}
+
+
+.card-body {
+    color: #000; 
+    padding: 15px; 
+}
+
+
+
+
+.cards-container {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: space-around; 
+    gap: 20px; 
+    padding: 20px; 
+  }
+  .card {
+    flex: 1 1 45%; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    margin: 10px; 
+    background-color:#565a61 ;
+    text-align: center; 
+  display: flex;
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center; 
+  border-radius: 10px;
+  }
+  
+  
+  .card:hover {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); 
+  }
+  
+
+
+
+
+.card-title {
+    font-size: 20px;
+    color: #ffffff;
+    margin-bottom: 10px; 
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    background-color: #857d36;
+    border-radius: 5px;
+}
+
+.card-text {
+    font-size: 16px;
+    color: #ffffff;
+    margin-bottom: 10px; /* Space between text and rating */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rating i {
+    color: gold; 
+    padding: 5px;
+}
+
+.rating span {
+    color: #666; 
+}
+
+
+.voicebtn{
+    background-color: #56282D; 
+    border-radius: 10px;
+    padding: 20px;  
+    color: white;
+    text-transform: uppercase;
+    margin-top: 20px;
+    border: 1px solid goldenrod;
+    box-shadow: 0px 7px 19px 4px rgba(0,0,0,0.75);
+}
+
+
+
+
+.voicebtn:hover {
+    background-color: #803336; 
+    transform: translateY(-2px); 
+}

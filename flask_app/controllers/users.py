@@ -1,6 +1,6 @@
-# This will be in your controllers folder.  Remember to 'pipenv install flask pymysql flask_bcrypt' in your main project folder!
 from flask_app import app, bcrypt
 from flask_app.models.user import User
+from flask_app.models.restaurant import Restaurant
 from flask import flash, render_template, redirect, request, session
 
 # Replace all "Users/user" with your class name!
@@ -9,14 +9,13 @@ from flask import flash, render_template, redirect, request, session
 @app.route("/")
 def index():
     """This route displays the landing page."""
-
-    return render_template("landing_page.html")
+    restaurant = Restaurant.find_all_with_ratings()
+    return render_template("landing_page.html", all_restaurants = restaurant)
 
 
 @app.route("/login-reg")
 def log_reg():
     """This route displays the login and registration forms."""
-
     return render_template("login_registration.html")
 
 
@@ -30,17 +29,18 @@ def register():
     potential_user = User.find_by_email(request.form["email"])
 
     if potential_user != None:
-        flash("Email in user!  Please log in!", "register")
+        flash("An account already exists with this email. Please log in.", "register")
         return redirect("/login-reg")
 
-    hashed_pw = bcrypt.generate_password_hash(request.form["password"])
-    user_data = {
+    hashed_password = bcrypt.generate_password_hash(request.form["password"])
+    
+    data = {
         "first_name": request.form["first_name"],
         "last_name": request.form["last_name"],
         "email": request.form["email"],
-        "password": hashed_pw,
+        "password": hashed_password
     }
-    user_id = User.register(user_data)
+    user_id = User.register(data)
     session["user_id"] = user_id
     return redirect("/restaurants/all")
 

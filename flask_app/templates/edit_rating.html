@@ -22,7 +22,7 @@
   <!-- NAV BAR  -->
   <!-- BODY OF WEBPAGE START -->
   <div>
-    <h2>{{rating.users.first_name}} Edit Your Review of {{ rating.restaurants.name }}</h2>
+    <h2>{{rating.users.first_name}}, Edit Your Review of {{ rating.restaurants.name }}</h2>
     <!-- ALERT MESSAGE START  -->
     {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -38,13 +38,12 @@
     <div>
       <form action="/ratings/update" method="post">
         <input type="hidden" name="rating_id" value="{{ rating.id }}">
-        <input type="hidden" name="restaurant_id" value="{{ rating.restaurant_id }}">
+        <input type="hidden" name="restaurant_id" value="{{ rating.restaurants.id }}">
         <div>
-          <textarea class="form-control" rows="10" name="comments" id="comments">
-                                {{ session.comment if "comment" in session else rating.comment }}</textarea>
+          <textarea class="form-control" rows="10" name="comment" id="comment">{{ session.comment if "comment" in session else rating.comment }}</textarea>
         </div>
         <select name="rating" required>
-          <option value="" selected disabled hidden>Select a rating</option>
+          <option selected="" hidden="" disabled="" value="">Current Rating: {{rating.rating}}</option>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -52,9 +51,9 @@
           <option value="5">5</option>
         </select>
         <div>
-          <button type="submit">Delete</button>
           <button type="submit">Update</button>
         </div>
+        <a href="/ratings/{{rating_id}}/delete" class="btn btn-danger align-middle me-3">Delete</a>
       </form>
     </div>
   </div>

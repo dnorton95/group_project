@@ -1,7 +1,5 @@
-from flask import flash
-from datetime import datetime
 from flask_app.config.mysqlconnection import connectToMySQL
-from flask_app.models.user import User
+from flask_app.models import rating
 from pprint import pprint
 
 # CLASS INITIALIZER BEGIN
@@ -20,81 +18,12 @@ class Restaurant:
         self.phone_number = data["phone_number"]
         self.created_at = data["created_at"]
         self.updated_at = data["updated_at"]
-        #self.AvgRating =  data["AvgRating"]
+        self.AvgRating =  data["AvgRating"]
 
 # CLASS INITIALIZER END
 
 
-
-
-# CREATE METHODS BEGIN
-
-    @classmethod
-    def create(cls, form_data):
-        query = """INSERT INTO restaurants
-        (name, cuisine, street, city, user_id)
-        VALUES
-        (%(name)s, %(cuisine)s, %(street)s, %(city)s, 
-        %(user_id)s)"""
-        restaurant_id = connectToMySQL(Restaurant.DB).query_db(query, form_data)
-        return restaurant_id
-
-# CREATE METHODS END
-
-
-
-
 # READ METHODS BEGIN
-
-# Form validator
-    @staticmethod
-    def form_is_valid(form_data):
-        is_valid = True
-
-        if len(form_data["name"]) == 0:
-            flash("Please enter name.")
-            is_valid = False
-        elif len(form_data["name"]) < 3:
-            flash("name must be at least three characters.")
-            is_valid = False
-
-        if len(form_data["cuisine"]) == 0:
-            flash("Please enter cuisine.")
-            is_valid = False
-        elif len(form_data["cuisine"]) < 3:
-            flash("cuisine must be at least three characters.")
-            is_valid = False
-
-        if len(form_data["city"]) == 0:
-            flash("Please enter city.")
-            is_valid = False
-        elif len(form_data["city"]) < 3:
-            flash("city must be at least three characters.")
-            is_valid = False
-
-        # Data Validator
-        if len(form_data["street"]) == 0:
-            flash("Please enter Release Date.")
-            is_valid = False
-        else:
-            try:
-                datetime.strptime(form_data["street"], "%Y-%m-%d")
-            except:
-                flash("Invalid Release Date.")
-                is_valid = False
-
-        return is_valid
-
-    @classmethod
-    def find_all(cls):
-        query = """SELECT * FROM restaurants JOIN users ON restaurants.user_id = users.id"""
-        list_of_dicts = connectToMySQL(Restaurant.DB).query_db(query)
-
-        restaurants = []
-        for each_dict in list_of_dicts:
-            restaurant = Restaurant(each_dict)
-            restaurants.append(restaurant)
-        return restaurants
 
     @classmethod
     def find_all_with_ratings(cls):
@@ -104,9 +33,7 @@ class Restaurant:
                 FROM ratings
                 GROUP BY restaurant_id
                 )
-                SELECT restaurants.name as 'name',
-                restaurants.cuisine as 'cuisine', 
-                restaurants.id as 'id'
+                SELECT *
                 ,coalesce(CAST(cte1.AverageRating as char), 0) AS 'AvgRating'
                 FROM restaurants
                 LEFT JOIN cte1
@@ -116,16 +43,62 @@ class Restaurant:
         for row in results:
             one_restaurant = cls(row)
             one_restaurants_info = {
-                "AvgRating": row['AvgRating'], 
-                "name": row['name'],
-                "cuisine": row['cuisine'],
-                "id": row['id']
+                "id": row["id"],
+                "name": row["name"],
+                "cuisine" : row["cuisine"],
+                "street": row["street"],
+                "city": row["city"],
+                "state": row["state"],
+                "zip_code": row["zip_code"],
+                "phone_number": row["phone_number"],
+                "created_at": row["created_at"],
+                "updated_at": row["updated_at"],
+                "AvgRating": row["AvgRating"],
             }
             print(one_restaurants_info)
             one_restaurant.avg = one_restaurants_info
         for one_restaurant in results:
             all_restaurants.append(cls(one_restaurant))
         return all_restaurants
+
+    @classmethod
+    def find_one_with_rating(cls, restaurant_id):
+        query = """with cte1 as(
+                SELECT restaurant_id
+                ,round(AVG(rating),0) AS AverageRating
+                FROM ratings
+                GROUP BY restaurant_id
+                )
+                SELECT *
+                ,coalesce(CAST(cte1.AverageRating as char), 0) AS 'AvgRating'
+                FROM restaurants
+                LEFT JOIN cte1
+                on restaurants.id = cte1.restaurant_id
+                WHERE restaurants.id = %(restaurant_id)s;"""
+        data = {'restaurant_id': restaurant_id}
+        results = connectToMySQL(cls.DB).query_db(query, data)
+        if len(results) == 0:
+            return None
+        restaurant = []
+        for row in results:
+            one_restaurant = cls(row)
+            one_restaurants_info = {
+                "id": row["id"],
+                "name": row["name"],
+                "cuisine" : row["cuisine"],
+                "street": row["street"],
+                "city": row["city"],
+                "state": row["state"],
+                "zip_code": row["zip_code"],
+                "phone_number": row["phone_number"],
+                "created_at": row["created_at"],
+                "updated_at": row["updated_at"],
+                "AvgRating": row["AvgRating"],
+            }
+            print(one_restaurants_info)
+        for one_restaurant in results:
+            restaurant.append(cls(one_restaurant))
+        return restaurant
 
     @classmethod
     def find_by_id(cls, restaurant_id):
@@ -148,38 +121,5 @@ class Restaurant:
         return list_of_dicts[0]["count"]
 
 # READ METHODS END
-
-
-
-
-# UPDATE METHODS BEGIN
-
-    @classmethod
-    def update(cls, form_data):
-        query = """UPDATE restaurants
-        SET
-        name=%(name)s,
-        cuisine=%(cuisine)s,
-        street=%(street)s,
-        city=%(city)s
-        WHERE id = %(restaurant_id)s;"""
-        connectToMySQL(Restaurant.DB).query_db(query, form_data)
-        return
-
-# UPDATE METHODS END
-
-
-
-
-# DELETE METHODS BEGIN
-
-    @classmethod
-    def delete_by_id(cls, restaurant_id):
-        query = """DELETE FROM restaurants WHERE id = %(restaurant_id)s;"""
-        data = {"restaurant_id": restaurant_id}
-        connectToMySQL(Restaurant.DB).query_db(query, data)
-        return
-
-# DELETE METHODS END
 
 
