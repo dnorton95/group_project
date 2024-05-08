@@ -16,7 +16,7 @@ class Rating:
         self.user_id = data["user_id"]
         self.restaurants = {
             "name": data["name"],
-            "id": data["restaurant_id"]
+            "restaurant_id": data["restaurant_id"]
         }
         self.users = {
             "id": data["user_id"],

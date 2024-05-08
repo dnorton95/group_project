@@ -55,14 +55,9 @@ def rating_delete(rating_id):
     if "user_id" not in session:
         flash("Please log in.", "login")
         return redirect("/")
-
     rating_id = request.form["rating_id"]
     restaurant_id = request.form["restaurant_id"]
-
     Rating.delete_rating(rating_id)
-    flash('Vote removed')
-
-
     return redirect(f"/restaurants/{restaurant_id}")
 
 # DELETE END
