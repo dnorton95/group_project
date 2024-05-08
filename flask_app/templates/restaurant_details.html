@@ -1,120 +1,138 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ restaurant.title }}</title>
-  </head>
-  <body>
-    <!-- WEBPAGE START -->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ restaurant.name }}</title>
+</head>
+
+<body>
+  <!-- WEBPAGE START -->
+  <div>
+    <!-- HEADER START -->
     <div>
-      <!-- HEADER START -->
       <div>
-        <div>
-          <h1>Holler</h1>
-          <p>witty tag line</p>
-        </div>
-        <div>
-          <button>Dashboard</button>
-          <button>Logout</button>
-        </div>
+        <h1>Holler</h1>
+        <p>witty tag line</p>
       </div>
-      <!-- HEADER END -->
-      <!-- BODY START -->
       <div>
-        <!-- Left Column Start -->
+        <a href="/restaurants/all">Home</a>
+        <form role="logout" action="/users/logout">
+          <button type="submit">Log Out</button>
+        </form>
+      </div>
+    </div>
+    <!-- HEADER END -->
+    <!-- BODY START -->
+    <div>
+      <!-- Left Column Start -->
+      <div>
+        <!-- Rating Card Start -->
         <div>
-          <!-- Rating Card Start -->
           <div>
-            <div>
-              <p>{{ restaurant.name }}</p>
-              <p>Average Rating: {{ restaurant.avg_rating }}</p>
-            </div>
-            <div>
-              <p>Cuisine Type: {{ restaurant.cuisine }}</p>
-            </div>
+          {% for restaurant in restaurant %}
+            <p>{{ restaurant.name }}</p>
+            <p>Average Rating: {{ restaurant.avg_rating }}</p>
           </div>
-          <!-- Rating Card End -->
-          <!-- Contact Card Start -->
           <div>
-            <div>
-              <p>{{ restaurant.street }}</p>
-            </div>
-            <div>
-              <p>{{ restaurant.city }}, {{ restaurant.state }}</p>
-            </div>
-            <div>
-              <p>{{ restaurant.zip_code }}</p>
-            </div>
-            <div>
-              <p>{{ restaurant.phone_number }}</p>
-            </div>
+            <p>Cuisine Type: {{ restaurant.cuisine }}</p>
           </div>
-          <!-- Contact Card End -->
         </div>
-        <!-- Left Column End -->
-        <!-- Right Column Start -->
+        <!-- Rating Card End -->
+        <!-- Contact Card Start -->
         <div>
+          <div>
+            <p>{{ restaurant.street }}</p>
+          </div>
+          <div>
+            <p>{{ restaurant.city }}, {{ restaurant.state }}</p>
+          </div>
+          <div>
+            <p>{{ restaurant.zip_code }}</p>
+          </div>
+          <div>
+            <p>{{ restaurant.phone_number }}</p>
+          </div>
+        </div>
+        {% endfor %}
+        <!-- Contact Card End -->
+      </div>
+      <!-- Left Column End -->
+      <!-- Right Column Start -->
+      <div>
         <!-- Review Card Start -->
         <div>
           <div>
             <h3>User Reviews:</h3>
           </div>
           {% if restaurant_ratings %}
-            {% for rating in restaurant_ratings %}
-              <div>
-                <p>{{ rating.users.first_name }}, {{ rating.created_at }}</p>
-                <p>{{ rating.comment }}</p>
-                <p>Rated: {{ rating.rating}} out of 5</p>
-              </div>
-              <div>
-                <form method="post" action="/ratings/{{ rating.id }}/delete">
-                  <input type="hidden" name="rating_id" value="{{ rating.id }}">
-                  <input type="hidden" name="restaurant_id" value="{{ rating.restaurant_id }}">
-                  <button type="submit">Delete</button>
-                </form>
-                <form role="delete" action="/ratings/{{ rating.id }}/edit">
-                  <button type="submit">Edit Comment</button>
-              </form>
-              
-              </div>
-            {% endfor %}
+          {% for rating in restaurant_ratings %}
+          <div>
+            <p>{{ rating.users.first_name }}, {{ rating.created_at }}</p>
+            <p>{{ rating.comment }}</p>
+            <p>Rated: {{ rating.rating }} out of 5</p>
+          </div>
+          <div>
+            {% if rating.users.id == user.id %}
+            <form method="post" action="/ratings/{{ rating.id }}/delete">
+              <input type="hidden" name="rating_id" value="{{ rating.id }}">
+              <input type="hidden" name="restaurant_id" value="{{ rating.restaurants.restaurant_id }}">
+              <button type="submit">Delete</button>
+            </form>
+            <a href="/ratings/{{ rating.id }}/edit" class="btn btn-info">Edit Comment</a>
+            {% endif %}
+          </div>
+          {% endfor %}
           {% else %}
-            <div>
-              <p>No user review yet.</p>
-            </div>
+          <div>
+            <p>No user reviews yet.</p>
+          </div>
           {% endif %}
         </div>
         <!-- Review Card End -->
 
 
-        </div>
-        <!-- Right Column End -->
-        <!-- Footer Start -->
-        <div>
-          <!-- Leave Review Card Start -->
-          <div>
-            <form method="post" action="/ratings/create">
-              <input type="hidden" name="restaurant_id" value="{{ restaurant.id }}">
-              <textarea name="comment" placeholder="Write your review here..." required></textarea>
-              <select name="rating" required>
-                <option value="" selected disabled hidden>Select a rating</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-              <button type="submit">Submit Review</button>
-            </form>
-          </div>
-          <!-- Leave Review Card End -->
-        </div>
-        <!-- Footer End -->
       </div>
-      <!-- BODY END -->
+      <!-- Right Column End -->
+      <!-- Footer Start -->
+      <div>
+        <!-- Leave Review Card Start -->
+        <div>
+        {% for restaurant in restaurant %}
+        <!-- ALERT MESSAGE START  -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <!-- ALERT MESSAGE END  -->
+          <form method="post" action="/ratings/create">
+            <input type="hidden" name="restaurant_id" value="{{ restaurant.id }}">
+            <input type="hidden" name="user_id" value="{{ user.id }}">
+            <textarea name="comment" placeholder="Write your review here..." required></textarea>
+            <select name="rating" required>
+              <option value="" selected disabled hidden>Select a rating</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <button type="submit">Submit Review</button>
+          </form>
+          {% endfor %}
+        </div>
+        <!-- Leave Review Card End -->
+      </div>
+      <!-- Footer End -->
     </div>
-    <!-- WEBPAGE END -->
-    
-  </body>
+    <!-- BODY END -->
+  </div>
+  <!-- WEBPAGE END -->
+
+</body>
+
 </html>

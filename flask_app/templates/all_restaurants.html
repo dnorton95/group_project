@@ -1,56 +1,45 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>All Shows</title>
-  </head>
-  <body>
-    <div>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Holler</title>
+</head>
+
+<body>
+  <div>
+    <nav>
       <div>
-        <h1>
-          Welcome To Your NEXTFIX, {{user.first_name}}!
-        </h1>
-        <form role="logout" action="/users/logout">
-          <a href="/shows/new"> Create Show</a>
-          <button type="submit">Log Out</button>
-        </form>
+        <h1>Holler</h1>
+        <h2>witty tag line</h2>
+        <a href="/users/logout">Log Out</a>
       </div>
-    </div>
-    <div>
-      <table>
-        <thead>
-          <tr>
-            <th scope="col">Title</th>
-            <th scope="col">Network</th>
-            <th scope="col">Release Date</th>
-            <th scope="col">More</th>
-          </tr>
-        </thead>
-        {% for show in shows %}
+    </nav>
+    <hr>
+    <h3>Welcome {{user.first_name}}!</h3>
+    <h2>Restaurants Near You:</h2>
+    <table>
+      <thead>
         <tr>
-          <td><a href="/shows/{{ show.id }}">{{ show.title}}</a></td>
-          <td>{{ show.network }}</td>
-          <td>{{ show.release_date }}</td>
-          <td>
-            <div>
-              <a href="/shows/{{ show.id }}">Details</a>
-              {% if session["user_id"] == show.user_id %}
-              <a href="/shows/{{show.id}}/edit">Edit</a>
-              <form action="/shows/{{show.id}}/delete" method="post">
-                <input type="submit" value="Delete" />
-              </form>
-            </div>
-            {% endif %}
-          </td>
+          <th>Name</th>
+          <th>Cuisine</th>
+          <th>Average Rating</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for one_restaurant in all_restaurants %}
+        <tr>
+          <td>{{one_restaurant.name}}</td>
+          <td>{{one_restaurant.cuisine}}</td>
+          <td>{{one_restaurant.AvgRating}} out of 5 stars</td>
+          <td><a href="/restaurants/{{one_restaurant.id}}">Details</a></td>
         </tr>
         {% endfor %}
-      </table>
-    </div>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+      </tbody>
+    </table>
+  </div>
+</body>
+
 </html>

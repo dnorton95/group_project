@@ -54,7 +54,7 @@ class User:
                 "register",
             )
             is_valid = False
-        elif user["password"] != user["password_confirm"]:
+        elif user["password"] != user["confirm_password"]:
             flash("Passwords do not match", "register")
             is_valid = False
         return is_valid
@@ -79,13 +79,10 @@ class User:
 
     @classmethod
     def register(cls, data):
-        query = """INSERT INTO users (first_name, last_name, email, password, 
-        created_at, updated_at) VALUES ( %(first_name)s, %(last_name)s, %(email)s, 
-        %(password)s, NOW(), NOW());"""
-
-        results = connectToMySQL(cls.DB).query_db(query, data)
-        print(results)
-        return results
+        query = """INSERT INTO users (first_name, last_name, email, password, created_at, updated_at)
+            VALUES (%(first_name)s, %(last_name)s, %(email)s, %(password)s, NOW(), NOW());"""
+        user_id = connectToMySQL(cls.DB).query_db(query,data)
+        return user_id
 
     @classmethod
     def find_by_email(cls, email):
@@ -105,33 +102,4 @@ class User:
         if len(results) == 0:
             return None
         user = User(results[0])
-        return user
-
-    @classmethod
-    def find_by_id_with_gizmos(cls, user_id):
-        query = """SELECT * FROM users LEFT JOIN gizmos ON users.id = 
-        gizmos.user_id WHERE users.id = %(user_id)s"""
-        data = {"user_id": user_id}
-        list_of_dicts = connectToMySQL(User.DB).query_db(query, data)
-
-        if len(list_of_dicts) == 0:
-            return None
-
-        user = User(list_of_dicts[0])
-        for each_dict in list_of_dicts:
-            if each_dict["gizmos.id"] != None:
-                gizmo_data = {
-                    "id": each_dict["gizmos.id"],
-                    "column1": each_dict["column1"],
-                    "column2": each_dict["column2"],
-                    "column3": each_dict["column3"],
-                    "column4": each_dict["column4"],
-                    "column5": each_dict["colum51"],
-                    "created_at": each_dict["gizmos.created_at"],
-                    "updated_at": each_dict["gizmos.updated_at"],
-                    "user_id": each_dict["user_id"],
-                }
-                gizmo = gizmo.Gizmo(gizmo_data)
-                user.gizmos.append(gizmo)
-
         return user
