@@ -20,7 +20,7 @@ class Restaurant:
         self.phone_number = data["phone_number"]
         self.created_at = data["created_at"]
         self.updated_at = data["updated_at"]
-        self.AvgRating =  data["AvgRating"]
+        #self.AvgRating =  data["AvgRating"]
 
 # CLASS INITIALIZER END
 
@@ -111,7 +111,7 @@ class Restaurant:
                 FROM restaurants
                 LEFT JOIN cte1
                 on restaurants.id = cte1.restaurant_id;"""
-        results = connectToMySQL(cls.db).query_db(query)
+        results = connectToMySQL(cls.DB).query_db(query)
         all_restaurants = []
         for row in results:
             one_restaurant = cls(row)

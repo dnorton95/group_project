@@ -15,7 +15,9 @@ class Rating:
         self.created_at = data["created_at"]
         self.updated_at = data["updated_at"]
         self.user_id = data["user_id"]
-        self.restaurant_id = data["restaurant_id"]
+        self.restaurants = {
+            "name": data["name"],
+        }
         self.users = {
             "id": data["user_id"],
             "first_name": data["first_name"],
@@ -49,9 +51,16 @@ class Rating:
 
     @classmethod
     def find_by_id(cls, rating_id):
-        query = "SELECT r.*, u.first_name, u.last_name FROM ratings r JOIN users u ON r.user_id = u.id WHERE r.id = %(rating_id)s;"
-        result = connectToMySQL(cls.DB).query_db(query, {'rating_id': rating_id})
-        return cls(result[0]) if result else None
+        query = """SELECT *
+                FROM users
+                INNER JOIN ratings
+                ON users.id = ratings.user_id
+                INNER JOIN restaurants
+                ON ratings.restaurant_id = restaurants.id
+                WHERE ratings.id = %(rating_id)s;"""
+        data = {'rating_id': rating_id}
+        result = connectToMySQL(cls.DB).query_db(query, data)
+        return cls(result[0])
 
     @classmethod
     def all_ratings(cls, restaurant_id):

@@ -1,5 +1,6 @@
 from flask_app import app
 from flask_app.models.rating import Rating
+from flask_app.models.restaurant import Restaurant
 from flask import flash, render_template, redirect, request, session
 
 # CREATE BEGIN
@@ -34,16 +35,15 @@ def create_rating():
 
 # UPDATE BEGIN
 
-@app.get("/ratings/<int:rating_id>/edit")
+@app.route("/ratings/<int:rating_id>/edit")
 def rating_edit(rating_id):
     # if "user_id" not in session:
     #     flash("Please log in.", "login")
     #     return redirect("/")
-
     rating = Rating.find_by_id(rating_id)  # Find the rating object
-    if not rating:
-        flash("Rating not found.", "error")
-        return redirect("/")
+    #if not rating:
+        #flash("Rating not found.", "error")
+        #return redirect("/")
 
     return render_template("edit_rating.html", rating=rating)
 

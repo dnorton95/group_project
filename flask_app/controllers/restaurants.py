@@ -53,7 +53,7 @@ def all_restaurants():
     # if "user_id" not in session:
     #     flash("Please log in.", "login")
     #     return redirect("/")
-    restaurant = Restaurants.find_all_with_ratings()
+    restaurant = Restaurant.find_all_with_ratings()
     user = User.find_by_id(session["user_id"])
     return render_template("all_restaurants.html", all_restaurants = restaurant, user=user)
 
