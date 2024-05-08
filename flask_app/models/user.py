@@ -7,7 +7,7 @@ PASSWORD_REGEX = re.compile(r"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}
 
 
 class User:
-    DB = "belt_exam_db"
+    DB = "group_project"
 
     def __init__(self, data):
         self.id = data["id"]
@@ -17,7 +17,6 @@ class User:
         self.password = data["password"]
         self.created_at = data["created_at"]
         self.updated_at = data["updated_at"]
-        self.shows = []
 
     @staticmethod
     def validate_register(user):
