@@ -42,29 +42,26 @@
         <a href="/login-reg" class="login buttons">Login or Sign Up</a>
       </div>
     </div>
-    <h2 class="text-primary mt-3">Restaurants Near You:</h2>
-    <table class="table table-bordered table-hover text-center align-middle">
-      <thead class="table-primary">
-        <tr>
-          <th scope="col" class="header text-dark">Name</th>
-          <th scope="col" class="header text-dark">Cuisine</th>
-          <th scope="col" class="header text-dark">Average Rating</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for one_restaurant in all_restaurants %}
-        <tr class="table-light">
-          <td class="rows">{{one_restaurant.name}}</td>
-          <td class="rows">{{one_restaurant.cuisine}}</td>
-          {% if one_restaurant.AvgRating ==0 %}
-          <td class="rows">{{one_restaurant.AvgRating}} out of 5 stars</td>
-          {% else %}
-          <td class="rows">No user reviews yet.</td>
-          {% endif %}
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <div class="body-right">
+      <h2>Restaurants Near You:</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Cuisine</th>
+            <th>Average Rating</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for one_restaurant in all_restaurants %}
+          <tr>
+            <td>{{one_restaurant.name}}</td>
+            <td>{{one_restaurant.cuisine}}</td>
+            <td>{{one_restaurant.AvgRating}} out of 5 stars</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
 </body>

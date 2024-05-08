@@ -8,33 +8,33 @@
 </head>
 
 <body>
-  <div class="container">
-    <nav class="navbar navbar-expand-lg bg-primary">
-      <div class="container-fluid">
-        <h1 class="navbar-brand text-light align-middle ms-3">Holler</h1>
-        <h2 class="lead align-middle text-light me-3">witty tag line</h2>
-        <a href="/logout" class="btn btn-secondary align-middle ms-3 me-3">Log Out</a>
+  <div>
+    <nav>
+      <div>
+        <h1>Holler</h1>
+        <h2>witty tag line</h2>
+        <a href="/users/logout">Log Out</a>
       </div>
     </nav>
     <hr>
-    <h3 class="text-secondary text-center mx-3 my-3">Welcome {{user.first_name}}!</h3>
-    <h2 class="text-primary mt-3">Restaurants Near You:</h2>
-    <table class="table table-bordered table-hover text-center align-middle">
-      <thead class="table-primary">
+    <h3>Welcome {{user.first_name}}!</h3>
+    <h2>Restaurants Near You:</h2>
+    <table>
+      <thead>
         <tr>
-          <th scope="col" class="header text-dark">Name</th>
-          <th scope="col" class="header text-dark">Cuisine</th>
-          <th scope="col" class="header text-dark">Average Rating</th>
-          <th scope="col" class="header text-dark">Details</th>
+          <th>Name</th>
+          <th>Cuisine</th>
+          <th>Average Rating</th>
+          <th>Details</th>
         </tr>
       </thead>
       <tbody>
         {% for one_restaurant in all_restaurants %}
-        <tr class="table-light">
-          <td class="rows">{{one_restaurant.name}}</td>
-          <td class="rows">{{one_restaurant.cuisine}}</td>
-          <td class="rows">{{one_restaurant.AvgRating}} out of 5 stars</td>
-          <td class="rows"><a href="/restaurants/{{one_restaurant.id}}" class="btn btn-info btn-sm">Details</a></td>
+        <tr>
+          <td>{{one_restaurant.name}}</td>
+          <td>{{one_restaurant.cuisine}}</td>
+          <td>{{one_restaurant.AvgRating}} out of 5 stars</td>
+          <td><a href="/restaurants/{{one_restaurant.id}}">Details</a></td>
         </tr>
         {% endfor %}
       </tbody>

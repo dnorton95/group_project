@@ -18,7 +18,9 @@
       </div>
       <div>
         <a href="/restaurants/all">Home</a>
-        <button>Logout</button>
+        <form role="logout" action="/users/logout">
+          <button type="submit">Log Out</button>
+        </form>
       </div>
     </div>
     <!-- HEADER END -->
@@ -73,15 +75,6 @@
           </div>
           <div>
             {% if rating.users.id == user.id %}
-            <!-- ALERT MESSAGE START  -->
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-            {% for message in messages %}
-            <p>{{ message }}</p>
-            {% endfor %}
-            {% endif %}
-            {% endwith %}
-            <!-- ALERT MESSAGE END  -->
             <form method="post" action="/ratings/{{ rating.id }}/delete">
               <input type="hidden" name="rating_id" value="{{ rating.id }}">
               <input type="hidden" name="restaurant_id" value="{{ rating.restaurants.restaurant_id }}">
@@ -107,6 +100,15 @@
         <!-- Leave Review Card Start -->
         <div>
         {% for restaurant in restaurant %}
+        <!-- ALERT MESSAGE START  -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <!-- ALERT MESSAGE END  -->
           <form method="post" action="/ratings/create">
             <input type="hidden" name="restaurant_id" value="{{ restaurant.id }}">
             <input type="hidden" name="user_id" value="{{ user.id }}">
