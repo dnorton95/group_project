@@ -16,13 +16,13 @@ class Rating:
         self.user_id = data["user_id"]
         self.restaurants = {
             "name": data["name"],
+            "id": data["restaurant_id"]
         }
         self.users = {
             "id": data["user_id"],
             "first_name": data["first_name"],
             "last_name": data["last_name"],
         }
-        self.rating_id = data["id"]
 
 
 # CLASS INITIALIZER END
@@ -47,7 +47,7 @@ class Rating:
                 FROM ratings
                 INNER JOIN users
                 ON users.id = ratings.user_id
-                INNER JOIN restaurants
+                JOIN restaurants
                 ON ratings.restaurant_id = restaurants.id
                 WHERE ratings.id = %(rating_id)s;"""
         data = {'rating_id': rating_id}

@@ -14,8 +14,8 @@
     <p>witty tag line</p>
   </div>
   <div>
+    <a href="/restaurants/all">Home</a>
     <form role="logout" action="/user/logout">
-      <a href="/retaurants/all">Home</a>
       <button type="submit">Log Out</button>
     </form>
   </div>
@@ -27,10 +27,7 @@
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     {% for message in messages %}
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-      {{ message }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+      <p>{{ message }}</p>
     {% endfor %}
     {% endif %}
     {% endwith %}
