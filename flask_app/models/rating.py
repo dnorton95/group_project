@@ -1,6 +1,5 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask import flash
-from pprint import pprint
 
 
 # CLASS INITIALIZER BEGIN
