@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `ratings`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ratings` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `rating` int NOT NULL,
   `comment` varchar(600) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -34,10 +34,8 @@ CREATE TABLE `ratings` (
   `restaurant_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_ratings_users_idx` (`user_id`),
-  KEY `fk_ratings_restaurants1_idx` (`restaurant_id`),
-  CONSTRAINT `fk_ratings_restaurants1` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurants` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `fk_ratings_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  KEY `fk_ratings_restaurants1_idx` (`restaurant_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +44,7 @@ CREATE TABLE `ratings` (
 
 LOCK TABLES `ratings` WRITE;
 /*!40000 ALTER TABLE `ratings` DISABLE KEYS */;
-INSERT INTO `ratings` VALUES (1,4,'My favorite Italian restaurant in the Atlanta area. The squid ink pasta is a must to try.','2024-05-01 14:18:21','2024-05-01 14:18:21',1,2),(2,5,'Employees go above and beyond for their customers. The food is delicious, you cannot go wrong with their menu.','2024-05-01 14:18:21','2024-05-01 14:18:21',2,5),(3,4,'Great food, wonderful ambiance, and delightful owners.','2024-05-01 14:18:21','2024-05-01 14:18:21',3,4),(4,4,'Still killin it!! Love the vibes! Love the food!','2024-05-01 14:18:21','2024-05-01 14:18:21',4,1),(5,5,' We ordered the soup du jour, crawfish bisque, and it was sooooo delicious! Looking forward to going back.','2024-05-01 14:18:21','2024-05-01 14:18:21',5,7);
+INSERT INTO `ratings` VALUES (1,4,'My favorite Italian restaurant in the Atlanta area. The squid ink pasta is a must to try.','2024-05-01 14:18:21','2024-05-06 19:44:19',1,2),(2,5,'Employees go above and beyond for their customers. The food is delicious, you cannot go wrong with their menu.','2024-05-01 14:18:21','2024-05-06 19:45:00',2,5),(3,4,'Great food, wonderful ambiance, and delightful owners.','2024-05-01 14:18:21','2024-05-06 19:45:22',3,4),(4,4,'Still killin it!! Love the vibes! Love the food!','2024-05-01 14:18:21','2024-05-06 19:45:44',4,1),(5,5,' We ordered the soup du jour, crawfish bisque, and it was sooooo delicious! Looking forward to going back.','2024-05-01 14:18:21','2024-05-06 19:46:07',5,7),(6,4,'still the best!','2024-05-07 09:49:25','2024-05-07 09:49:25',1,2);
 /*!40000 ALTER TABLE `ratings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -58,7 +56,7 @@ DROP TABLE IF EXISTS `restaurants`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `restaurants` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `cuisine` varchar(45) NOT NULL,
   `street` varchar(45) NOT NULL,
@@ -69,7 +67,7 @@ CREATE TABLE `restaurants` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,7 +88,7 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `first_name` varchar(45) NOT NULL,
   `last_name` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
@@ -98,7 +96,7 @@ CREATE TABLE `users` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,4 +126,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-01 17:15:51
+-- Dump completed on 2024-05-07 11:18:36
