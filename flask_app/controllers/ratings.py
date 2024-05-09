@@ -9,9 +9,6 @@ def create_rating():
     restaurant_id = request.form["restaurant_id"]
     if not Rating.form_is_valid(request.form):
         return redirect(f"/restaurants/{restaurant_id}")
-    if Rating.has_submitted_rating:
-        flash("You've already reviewed this restaurant. Please edit your review.", "error")
-        return redirect(f"/restaurants/{restaurant_id}")
     Rating.create(request.form)
     return redirect(f"/restaurants/{restaurant_id}")
 

@@ -79,13 +79,6 @@ class Rating:
             return result[0]['id']
         return None
 
-# Checks if user has submitted a rating already
-    @classmethod
-    def has_submitted_rating(cls, restaurant_id, user_id):
-        query = "SELECT COUNT(*) as count FROM ratings WHERE restaurant_id = %s AND user_id = %s"
-        result = connectToMySQL(cls.DB).query_db(query, (restaurant_id, user_id))
-        return result[0]['count'] > 0
-
 # Validates comments by length and rating numbers
     @staticmethod
     def form_is_valid(form_data):
