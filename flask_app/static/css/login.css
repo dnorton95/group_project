@@ -1,0 +1,97 @@
+/* Basic styling for the overall body and background */
+body {
+    background: url('/static/images/login.png') no-repeat center center fixed;
+    background-size: cover; /* Cover the entire viewport */
+    color: #fff; /* White text for readability */
+    font-family: 'Sedan SC', serif; /* Elegant, decorative serif font */
+}
+
+/* Apply a glass effect on cards */
+.card {
+    background-color: rgba(128, 51, 54, 0.7); /* Slightly more transparent for glass effect */
+    backdrop-filter: blur(10px); /* Blur effect for the glass-like appearance */
+    border-radius: 20px; /* More pronounced rounded corners for the cards */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Slightly brighter border for more depth */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for 3D effect */
+}
+
+.card:hover{
+    box-shadow: 0 4px 8px rgba(235, 255, 51, 0.1); /* Soft shadow for 3D effect */
+}
+
+.card-body {
+    padding: 25px; /* Increased padding for better spacing */
+}
+
+.card-body:hover{
+    box-shadow: 0 4px 8px rgba(235, 255, 51, 0.1); /* Soft shadow for 3D effect */
+}
+
+
+/* Form input and label styling */
+.form-control {
+    background-color: rgba(100, 100, 100, 0.281); /* Less transparent inputs */
+    border: 2px solid #F2AF29; /* Vibrant yellow border */
+    color: #fff; /* White text for inputs */
+    border-radius: 10px; /* More rounded corners for inputs */
+    padding: 10px; /* Better padding for inputs */
+}
+
+.form-label {
+    color: wheat;
+    margin-top: 10px;
+    letter-spacing: 1px;
+    text-decoration: underline;
+}
+
+/* Button styling */
+.btn {
+    background-color: #F2AF29; /* Vibrant yellow background for buttons */
+    color: #803336; /* Deep maroon text for contrast */
+    border: none; /* No borders for a clean look */
+    border-radius: 25px; /* More rounded corners for buttons */
+    padding: 12px 25px; /* More padding for a better touch */
+    font-size: 16px; /* Larger font size for readability */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
+}
+
+.btn:hover {
+    background-color: #ffbf40; /* Lighter yellow on hover */
+    color: #561e23; /* Darker maroon text on hover */
+}
+
+/* Enhancements for alerts and alert close buttons */
+.alert {
+    background-color: rgba(128, 51, 54, 0.7); /* Adjust transparency for consistency */
+    border: none; /* Remove borders from alerts */
+    color: #fff; /* White text for alerts */
+    backdrop-filter: blur(10px); /* Glass effect for alerts */
+}
+
+.alert-dismissible .btn-close {
+    color: #fff; /* White close button */
+    opacity: 0.8; /* More visible but still subtle */
+}
+
+.alert-dismissible .btn-close:hover {
+    opacity: 1; /* Fully opaque when hovered */
+}
+
+
+h1{
+    box-shadow: 2px 6px 10px 0px rgba(0,0,0,0.75);
+    background-color: #561e23;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h2{
+    box-shadow: 2px 6px 10px 0px rgba(0,0,0,0.75);
+    background-color: #561e23;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

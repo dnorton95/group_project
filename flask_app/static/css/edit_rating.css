@@ -1,0 +1,78 @@
+/* Basic body styling */
+body {
+    font-family: 'Sedan SC', serif; /* Elegant, decorative serif font */
+    background-color: #1A1A1D; /* Dark background for a sleek look */
+    color: #fff; /* White text for high contrast */
+    padding: 20px;
+}
+
+/* Styling for the main heading and tagline */
+h1, p {
+    text-align: center;
+}
+
+h1 {
+    color: #F2AF29; /* Vibrant yellow for the main heading */
+}
+
+p {
+    color: #fff; /* White for subtext */
+}
+
+/* Link and form button styling */
+a, button {
+    background-color: #803336; /* Deep maroon background */
+    color: #F2AF29; /* Yellow text */
+    text-decoration: none;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+    display: flex;
+    width: 5%;
+    text-align: center;
+    margin-left: 10px;
+}
+
+a:hover, button:hover {
+    background-color: #F2AF29; /* Yellow background on hover */
+    color: #803336; /* Maroon text on hover */
+}
+
+/* Styling for forms */
+.form-control {
+    width: 60%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid #F2AF29; /* Vibrant yellow border */
+    background-color: #444; /* Dark grey for input background */
+    color: #fff; /* White text for input */
+}
+
+select {
+    width: 61.3%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    background-color: #444;
+    border: 2px solid #F2AF29;
+    color: #fff;
+}
+
+option {
+    color: white; 
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Alert messages styling */
+p {
+    background-color: #803336; /* Maroon background */
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    width: 50%;
+    
+    margin: 0 auto;
+}
